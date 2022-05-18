@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  firstname    String
+  lastname     String?
+  Transactions Transaction[]
+}
+
+enum OperationType {
+  Purchase
+  Sale
+}
+
+model Article {
+  id             Int             @id @default(autoincrement())
+  name           String
+  price          Decimal
+  Transactions   Transaction[]
+  InventoryItems InventoryItem[]
+}
+
+model Transaction {
+  id            Int           @id @default(autoincrement())
+  operationType OperationType
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  count         Decimal
+  price         Decimal
+  amount        Decimal
+  author        User          @relation(fields: [authorId], references: [id])
+  authorId      Int
+  article       Article       @relation(fields: [articleId], references: [id])
+  articleId     Int
+}
+
+model InventoryItem {
+  id          Int       @id @default(autoincrement())
+  article     Article   @relation(fields: [articleId], references: [id])
+  count       Decimal
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
+  articleId   Int
+}
+
+model Inventory {
+  id              Int             @id @default(autoincrement())
+  // смотрю значения по последней инвентаризации, и считаю
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  inverntoryItems InventoryItem[]
+}
