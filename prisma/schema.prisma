@@ -13,20 +13,22 @@ model User {
   password     String
   firstname    String
   lastname     String?
-  Transactions Transaction[]
+  firstScreen  String        @default("Home")
+  transactions Transaction[]
+  inventories  Inventory[]
 }
 
 enum OperationType {
-  Purchase
-  Sale
+  PURCHASE
+  SALE
 }
 
 model Article {
   id             Int             @id @default(autoincrement())
   name           String
   price          Decimal
-  Transactions   Transaction[]
-  InventoryItems InventoryItem[]
+  transactions   Transaction[]
+  inventoryItems InventoryItem[]
 }
 
 model Transaction {
@@ -53,9 +55,10 @@ model InventoryItem {
 }
 
 model Inventory {
-  id              Int             @id @default(autoincrement())
-  // смотрю значения по последней инвентаризации, и считаю
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  inverntoryItems InventoryItem[]
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  inventoryItems InventoryItem[]
+  author         User            @relation(fields: [authorId], references: [id])
+  authorId       Int
 }
