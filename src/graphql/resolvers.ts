@@ -1,19 +1,50 @@
 import { PrismaClient } from "@prisma/client";
+import { ApolloError } from "apollo-server";
+import { authMiddleware } from "../auth";
 
 const prisma = new PrismaClient();
 
 const resolvers = {
   Query: {
-    users: () => prisma.user.findMany(),
-    transactions: () => prisma.transaction.findMany(),
-    inventories: () => prisma.inventory.findMany(),
-    articles: () => prisma.article.findMany()
+    users: authMiddleware((parent: any, args: any, context: any) => {
+      return prisma.user.findMany();
+    }),
+    transactions: authMiddleware((parent: any, args: any, context: any) => {
+      return prisma.transaction.findMany();
+    }),
+    inventories: authMiddleware((parent: any, args: any, context: any) => {
+      return prisma.inventory.findMany();
+    }),
+    articles: authMiddleware((parent: any, args: any, context: any) => {
+      return prisma.article.findMany();
+    })
   },
   Mutation: {
-    createUser: (parent: any, args: { email: string, password: string, firstname: string }, context: any) => {
-      const { email, password, firstname } = args;
-      return prisma.user.create({ data: { email, password, firstname } })
-    }
+    createUser: async (
+      parent: any,
+      args: { email: string, password: string, firstname: string, lastname?: string },
+      context: any
+      ) => {
+      const { email, password, firstname, lastname } = args;
+      context.res.cookie('myCookie', 'textForCookie', {
+        httpOnly: true
+      })
+
+      const isUserAlreadyExists = await prisma.user.findUnique({
+        where: {
+          email
+        }
+      });
+
+      if (isUserAlreadyExists) {
+        return new ApolloError('A user with such an email is already registered!', 'USER_ALREADY_EXISTS')
+      };
+
+      return prisma.user.create({
+        data: { email, password, firstname, lastname }
+      });
+    },
+
   },
   User: {
     transactions: (parent: any) => {

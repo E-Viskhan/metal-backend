@@ -6,7 +6,7 @@ const typeDefs = gql`
     email: String!
     password: String!
     firstname: String!
-    lastname: String!
+    lastname: String
     firstScreen: String!
     transactions: [Transaction!]!
     inventories: [Inventory!]!

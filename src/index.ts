@@ -1,28 +1,20 @@
-import { ApolloServer, AuthenticationError } from "apollo-server"
+import { ApolloServer } from "apollo-server"
 import typeDefs from './graphql/typeDefs';
 import resolvers from "./graphql/resolvers";
-import * as jwt from 'jsonwebtoken'
+import { getUser } from './auth';
 
-const getUser = (token: string) => {
-  if (!token) return null;
-
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET as jwt.Secret);
-  } catch (err) {
-    return { error: true, msg: "Session invalid" };
-  }
-};
 
 async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     csrfPrevention: true,
-    context: ({ req }) => {
-      const token = req.headers.authorization || '';
-      const user = getUser(token);
+    cors: true,
+    context: ({ req, res }) => {
+      const authHeader = req.headers.authorization || '';
+      const user = getUser(authHeader);
 
-      return { user };
+      return { user, req, res };
     },
   });
 
