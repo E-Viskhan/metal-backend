@@ -22,7 +22,7 @@ model User {
 model Token {
   user         User   @relation(fields: [userId], references: [id])
   userId       Int    @id @unique
-  refreshToken String
+  refreshToken String @unique
 }
 
 enum OperationType {

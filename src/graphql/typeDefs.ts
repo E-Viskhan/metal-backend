@@ -1,6 +1,5 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-express';
 
-// password: String!
 const typeDefs = gql`
   type User {
     id: Int!
@@ -67,7 +66,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(email: String!, password: String!, firstname: String!, lastname: String): String
+    registration(email: String!, password: String!, firstname: String!, lastname: String): String!
+    login(email: String!, password: String!): String!
+    logout: String!
   }
 `;
 

@@ -1,14 +1,12 @@
 import * as jwt from 'jsonwebtoken'
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError } from 'apollo-server-express';
 
-const getUser = (authHeader: string) => {
-  if (!authHeader) return null;
-
-  const token = authHeader.replace('Bearer ', '');
+const getUser = (refreshToken: string) => {
+  if (!refreshToken) return null;
+  // const tokenPart = refreshToken.replace('Bearer ', '');
 
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET as jwt.Secret);
-    return user;
+    return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as jwt.Secret);
   } catch (err) {
     return null;
   }
