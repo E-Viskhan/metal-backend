@@ -1,10 +1,10 @@
 import { gql } from 'apollo-server';
 
+// password: String!
 const typeDefs = gql`
   type User {
     id: Int!
     email: String!
-    password: String!
     firstname: String!
     lastname: String
     firstScreen: String!
@@ -67,7 +67,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(email: String!, password: String!, firstname: String!): User!
+    createUser(email: String!, password: String!, firstname: String!, lastname: String): String
   }
 `;
 

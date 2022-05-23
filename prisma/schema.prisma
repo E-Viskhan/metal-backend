@@ -14,8 +14,15 @@ model User {
   firstname    String
   lastname     String?
   firstScreen  String        @default("Home")
+  token        Token?
   transactions Transaction[]
   inventories  Inventory[]
+}
+
+model Token {
+  user         User   @relation(fields: [userId], references: [id])
+  userId       Int    @id @unique
+  refreshToken String
 }
 
 enum OperationType {
