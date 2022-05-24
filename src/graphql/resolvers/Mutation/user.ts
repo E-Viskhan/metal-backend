@@ -1,5 +1,5 @@
 import {ApolloError} from "apollo-server-express";
-import {Context} from "../../../context";
+import {Context} from "../../../types";
 import bcrypt from 'bcrypt';
 import {generateTokens, getMillisecondsFromDay} from "../../../utils";
 

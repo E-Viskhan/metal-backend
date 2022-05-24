@@ -1,4 +1,4 @@
-import { Context } from "../../context";
+import { Context } from "../../types";
 
 export const User = {
   transactions: (parent, args, ctx: Context) => {

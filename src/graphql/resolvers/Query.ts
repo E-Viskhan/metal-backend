@@ -1,5 +1,5 @@
 import { authMiddleware } from "../../auth";
-import { Context } from '../../context';
+import { Context } from '../../types';
 
 export const Query = {
   users: authMiddleware((parent, args, ctx: Context) => {

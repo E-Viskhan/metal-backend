@@ -5,5 +5,10 @@ export interface Context {
   prisma: PrismaClient
   req: Request
   res: Response
-  user: any
-};
+  user: User
+}
+
+export interface User {
+  id: number,
+  email: string
+}

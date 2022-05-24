@@ -1,4 +1,4 @@
-import { Context } from "../../context";
+import { Context } from "../../types";
 
 export const InventoryItem = {
   article: (parent, args, ctx: Context) => {

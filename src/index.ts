@@ -14,7 +14,7 @@ async function startApolloServer() {
     typeDefs,
     resolvers,
     csrfPrevention: true,
-    context: ({ req, res, ...rest }) => {
+    context: ({ req, res}) => {
       const { refreshToken } = req.cookies;
       const user = getUser(refreshToken);
 
