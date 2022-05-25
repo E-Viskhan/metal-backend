@@ -1,21 +1,19 @@
 import {ApolloServer} from "apollo-server-express"
 import express from 'express';
-import typeDefs from './graphql/typeDefs';
+import typeDefs from "./graphql/typeDefs";
 import resolvers from "./graphql/resolvers";
-import {PrismaClient} from '@prisma/client';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import {initDB} from "./db";
 
 async function startApolloServer() {
-  const prisma = new PrismaClient();
+  initDB();
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     csrfPrevention: true,
-    context: ({ req, res}) => {
-      return { req, res, prisma };
-    },
+    context: ({ req, res }) => ({ req, res })
   });
 
   await server.start()

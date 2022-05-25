@@ -1,17 +1,18 @@
 import authMiddleware from "../../authMiddleware";
-import { Context } from '../../types';
+import {Context} from '../../types';
+import {db} from "../../db";
 
 export const Query = {
-  users: authMiddleware((parent, args, ctx: Context) => {
-      return ctx.prisma.user.findMany();
+    users: authMiddleware((parent, args, ctx: Context) => {
+        return db.user.findMany();
     }),
     transactions: authMiddleware((parent, args, ctx: Context) => {
-      return ctx.prisma.transaction.findMany();
+        return db.transaction.findMany();
     }),
     inventories: authMiddleware((parent, args, ctx: Context) => {
-      return ctx.prisma.inventory.findMany();
+        return db.inventory.findMany();
     }),
     articles: authMiddleware((parent, args, ctx: Context) => {
-      return ctx.prisma.article.findMany();
+        return db.article.findMany();
     })
 };
