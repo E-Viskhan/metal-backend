@@ -5,7 +5,6 @@ import resolvers from "./graphql/resolvers";
 import {PrismaClient} from '@prisma/client';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
-import {getUser} from "./auth";
 
 async function startApolloServer() {
   const prisma = new PrismaClient();
@@ -15,10 +14,7 @@ async function startApolloServer() {
     resolvers,
     csrfPrevention: true,
     context: ({ req, res}) => {
-      const { refreshToken } = req.cookies;
-      const user = getUser(refreshToken);
-
-      return { req, res, prisma, user };
+      return { req, res, prisma };
     },
   });
 

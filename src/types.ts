@@ -9,6 +9,13 @@ export interface Context {
 }
 
 export interface User {
-  id: number,
+  id: number
   email: string
+}
+
+export interface UserTokenData {
+  id: number,
+  email: string,
+  iat: number,
+  exp: number
 }

@@ -69,6 +69,7 @@ const typeDefs = gql`
     registration(email: String!, password: String!, firstname: String!, lastname: String): String!
     login(email: String!, password: String!): String!
     logout: String!
+    refresh: String!
   }
 `;
 

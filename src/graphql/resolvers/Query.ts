@@ -1,4 +1,4 @@
-import { authMiddleware } from "../../auth";
+import authMiddleware from "../../authMiddleware";
 import { Context } from '../../types';
 
 export const Query = {
