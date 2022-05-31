@@ -11,9 +11,7 @@ export interface User {
   email: string
 }
 
-export interface UserTokenData {
-  id: number,
-  email: string,
+export interface UserTokenData extends User{
   iat: number,
   exp: number
 }
