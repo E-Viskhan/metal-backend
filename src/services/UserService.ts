@@ -45,7 +45,7 @@ export default {
 
         await TokenService.saveToken(user.id, tokens.refreshToken)
 
-        return tokens;
+        return {...tokens, userId: user.id};
     },
     logout: async (userId: number) => {
         await db.token.delete({where: { userId }});

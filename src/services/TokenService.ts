@@ -9,7 +9,7 @@ const TokenService = {
             email: user.email
         };
 
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'});
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '365d'});
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'});
 
         return {

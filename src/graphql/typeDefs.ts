@@ -57,7 +57,16 @@ const typeDefs = gql`
     PURCHASE
     SALE
   }
-
+  
+  type loginOutput {
+    accessToken: String!
+    userId: String!    
+  }
+  
+  type refreshOutput {
+      accessToken: String!
+  }
+  
   type Query {
     users: [User!]!
     transactions: [Transaction!]!
@@ -67,9 +76,9 @@ const typeDefs = gql`
 
   type Mutation {
     registration(email: String!, password: String!, firstname: String!, lastname: String): String!
-    login(email: String!, password: String!): String!
+    login(email: String!, password: String!): loginOutput!
     logout: String!
-    refresh: String!
+    refresh: refreshOutput!
   }
 `;
 

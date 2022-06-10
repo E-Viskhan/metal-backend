@@ -14,11 +14,11 @@ export const user = {
     },
     login: async (parent, args, ctx: Context) => {
         const {email, password} = args;
-        const {accessToken, refreshToken} = await UserService.login(email, password);
+        const {accessToken, refreshToken, userId} = await UserService.login(email, password);
 
         ctx.res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: getMillisecondsFromDay(30)});
 
-        return accessToken;
+        return { accessToken, userId };
     },
     logout: authMiddleware(async (parent, args, ctx: Context) => {
         const userId = ctx.user.id;
@@ -34,6 +34,6 @@ export const user = {
 
         ctx.res.cookie('refreshToken', tokens.refreshToken, {httpOnly: true, maxAge: getMillisecondsFromDay(30)});
 
-        return tokens.accessToken;
+        return { accessToken: tokens.accessToken };
     }
 };
